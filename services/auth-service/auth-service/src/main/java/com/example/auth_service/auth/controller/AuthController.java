@@ -6,10 +6,7 @@ import com.example.auth_service.auth.dto.RegisterRequest;
 import com.example.auth_service.auth.service.AuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
@@ -28,5 +25,10 @@ public class AuthController {
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request){
         String response = authService.login(request.getEmail(), request.getPassword());
         return ResponseEntity.ok(new AuthResponse(response));
+    }
+
+    @GetMapping("/admin/test")
+    public ResponseEntity<String> adminTest() {
+        return ResponseEntity.ok("Admin access granted");
     }
 }

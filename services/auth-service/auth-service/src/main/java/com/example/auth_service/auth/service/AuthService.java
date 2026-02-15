@@ -1,6 +1,7 @@
 package com.example.auth_service.auth.service;
 
 import com.example.auth_service.auth.security.JwtUtil;
+import com.example.auth_service.users.Role;
 import com.example.auth_service.users.User;
 import com.example.auth_service.users.UserRepository;
 import lombok.AllArgsConstructor;
@@ -21,7 +22,7 @@ public class AuthService {
         if (userRepository.findByEmail(email).isPresent()) {
             throw new RuntimeException("User already exists");
         }
-        User user = new User(email, passwordEncoder.encode(password), "USER");
+        User user = new User(email, passwordEncoder.encode(password), Role.USER);
         userRepository.save(user);
     }
 
@@ -32,6 +33,6 @@ public class AuthService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow();
 
-        return jwtUtil.generateToken(user.getEmail(), user.getRole());
+        return jwtUtil.generateToken(user.getEmail(), user.getRole().name());
     }
 }
